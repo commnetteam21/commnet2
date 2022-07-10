@@ -34,6 +34,7 @@ geo_file_name = 'site_locations.csv'
 df_geo = load_geo_data(geo_file_name)
 
 site_selections = df['name'].unique().tolist()
+site_selections.sort()
 site_selector = st.sidebar.selectbox('Select a site: ', site_selections)
 df_selection = df.query('name==@site_selector')
 
