@@ -95,7 +95,13 @@ st.write(fig4)
 # Run arima and garch
 df_selection2[payload_selector] = df_selection2[df_selection2[payload_selector]>0]
 df_selection2.dropna(inplace=True)
-perform_arima_garch(df_selection2)
+st.pyplot(get_stationarity(df_selection2))
+st.pyplot(FirstOrderDiff(df_selection2))
+params = get_arima_orders(df_selection2)
+if params[0]==0 and params[1]==0:
+    print('Errors in time series data is uncorrelated which means the errors are random')
+else:
+    st.pyplot(perform_GARCH(df_selection2))
 
 
 
