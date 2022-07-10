@@ -93,6 +93,8 @@ st.write(fig4)
 
 
 # Run arima and garch
+df_selection2[payload_selector] = df_selection2[df_selection2[payload_selector]>0]
+df_selection2.dropna(inplace=True)
 perform_arima_garch(df_selection2)
 
 
