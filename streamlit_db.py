@@ -132,7 +132,14 @@ if st.button('Click here to run Arima and GARCH'):
     st.markdown('Seasonality Investigation')
     st.pyplot(check_seasonality(df_selection2))
     st.markdown('Stationarity Investigation')
-    st.pyplot(get_stationarity(df_selection2))
+    stationary_fig, result = get_stationarity(df_selection2)
+    st.pyplot(stationary_fig)
+    st.write('ADF Statistic: {}'.format(result[0]))
+    st.write('p-value: {}'.format(result[1]))
+    st.write('Critical Values:')
+    for key, value in result[4].items():
+        st.write('\t{}: {}'.format(key, value))
+
     st.pyplot(FirstOrderDiff(df_selection2))
     col1, col2 = st.columns(2)
     with col1:
