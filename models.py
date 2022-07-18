@@ -27,7 +27,7 @@ def check_seasonality(df)->None:
              model='multiplicative',
              period=n_periods
     )
-    fig, axs = plt.subplots(4,1, figsize=(20,10))
+    fig, axs = plt.subplots(4,1, figsize=(10,10))
     # Observed
     axs[0].plot(result.observed)
     axs[0].set_title('Observed')
@@ -79,7 +79,7 @@ def get_stationarity(df)->None:
     print('Critical Values:')
     for key, value in result[4].items():
         print('\t{}: {}'.format(key, value))
-    return None
+    return fig, result
 
 def FirstOrderDiff(df)->None:
     column_name = df.columns[0]
@@ -193,6 +193,7 @@ def get_arima_orders(df)->tuple:
 # split into train/test
 def perform_GARCH(df, parameters):
     column_name = df.columns[0]
+    df[column_name] = np.where(df[column_name] == 0, 1.001, df[column_name])
     
     P,O,Q = parameters
     n_test = 600  #80/20 training vs testing
