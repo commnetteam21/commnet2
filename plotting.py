@@ -124,6 +124,7 @@ def plot_top10_on_map(top10df, geo_df):
         locationmode='USA-states',
         lon=top10geo['longitude'],
         lat=top10geo['latitude'],
+        text=top10geo[metric],
         marker = dict(
                 size = 2*top10geo[metric],
                 line_color='rgb(40,40,40)',
