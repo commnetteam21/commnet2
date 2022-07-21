@@ -79,7 +79,9 @@ def get_stationarity(df)->None:
     print('Critical Values:')
     for key, value in result[4].items():
         print('\t{}: {}'.format(key, value))
-    return fig, result
+        
+    return fig, result, rolling_std
+
 
 def FirstOrderDiff(df)->None:
     column_name = df.columns[0]
