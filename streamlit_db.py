@@ -52,6 +52,10 @@ st.write('Packet Loss:'+ str(site_summary['Packet Loss'])+' %.       ',
         'EFlarge Std Dev:' + str(site_summary['EFlarge Std Dev'])+' ms.    ',
         'BElarge Std Dev:' + str(site_summary['BElarge Std Dev'])+' ms.    ',
 )
+if site_summary['Packet Loss'] > 5: # 5%
+    st.markdown('Is_Outage == 1')
+else:
+    st.markdown('Is_Outage == 0')
 
 #Plot the site's data
 fig1 = plot_ping_responses(df_selection)
@@ -66,6 +70,8 @@ fig2.update_layout(
     width=1500,
     height=450,
 )
+
+
 
 st.write(fig2)
 st.header('Top 10 by selected metric')
@@ -108,10 +114,10 @@ if st.button('Click here to view top 10'):
      
     with col1:
         st.markdown('Top 10 by '+metric_selector)
-        st.write(top10byselectedMetric.head(10))
+        st.write(top10byselectedMetric.head(25))
     with col2:
         st.markdown('Bottom 10 by '+metric_selector)
-        st.write(top10byselectedMetric.tail(10))                            
+        st.write(top10byselectedMetric.tail(15))                            
     fig4 = plot_top10_on_map(top10byselectedMetric[:20],df_geo)
     st.write(fig4) 
 
@@ -120,6 +126,14 @@ st.header('Range Control Chart')
 st.write(site_selector + ' ' + payload_selector)
 fig5 = plot_R_chart(df_selection2)
 st.write(fig5)
+
+stationary_fig, result, rolling_std = get_stationarity(df_selection2)
+st.pyplot(stationary_fig)
+
+if rolling_std.std()[0] > np.sqrt(rolling_std.mean()[0]):
+    st.markdown('Latency_Flag == 1')
+else:
+    st.markdown('Latency_Flag == 0')
 
 
 
@@ -132,8 +146,7 @@ if st.button('Click here to run Arima and GARCH'):
     st.markdown('Seasonality Investigation')
     st.pyplot(check_seasonality(df_selection2))
     st.markdown('Stationarity Investigation')
-    stationary_fig, result = get_stationarity(df_selection2)
-    st.pyplot(stationary_fig)
+ 
     st.write('ADF Statistic: {}'.format(result[0]))
     st.write('p-value: {}'.format(result[1]))
     st.write('Critical Values:')
@@ -150,14 +163,3 @@ if st.button('Click here to run Arima and GARCH'):
     st.markdown('Result:')
     st.write('Optimal Order is: (p,d,q) = ', params)
     st.pyplot(perform_GARCH(df_selection2,params))
-
-
-
-
-
-
-
-
-
-
-
