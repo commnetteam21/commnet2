@@ -114,10 +114,10 @@ if st.button('Click here to view top 10'):
      
     with col1:
         st.markdown('Top 10 by '+metric_selector)
-        st.write(top10byselectedMetric.head(25))
+        st.write(top10byselectedMetric.head(10))
     with col2:
         st.markdown('Bottom 10 by '+metric_selector)
-        st.write(top10byselectedMetric.tail(15))                            
+        st.write(top10byselectedMetric.tail(10))                            
     fig4 = plot_top10_on_map(top10byselectedMetric[:20],df_geo)
     st.write(fig4) 
 
